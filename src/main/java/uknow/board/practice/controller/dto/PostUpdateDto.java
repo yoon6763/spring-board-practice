@@ -2,16 +2,12 @@ package uknow.board.practice.controller.dto;
 
 import lombok.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Getter
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PostRegisterDto {
+public class PostUpdateDto {
     private String title;
     private String content;
-    private List<String> postTagList = new ArrayList<>();
 }

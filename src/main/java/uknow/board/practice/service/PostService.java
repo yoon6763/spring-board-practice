@@ -1,22 +1,26 @@
 package uknow.board.practice.service;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import uknow.board.practice.controller.dto.PostRegisterDto;
-import uknow.board.practice.controller.dto.PostResponseDto;
+import uknow.board.practice.controller.dto.PostInfoDto;
+import uknow.board.practice.controller.dto.PostUpdateDto;
+import uknow.board.practice.entity.Tag;
 import uknow.board.practice.repository.PostRepository;
 import uknow.board.practice.entity.Post;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
+@Slf4j
 @Service
+@RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class PostService {
 
     private final PostRepository postRepository;
-
-    public PostService(PostRepository postRepository) {
-        this.postRepository = postRepository;
-    }
+    private final TagService tagService;
 
     @Transactional
     public List<Post> getAllPost() {
@@ -24,20 +28,30 @@ public class PostService {
     }
 
     @Transactional
-    public PostResponseDto getPostById(Long id) {
-        Post post = postRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("잘못된 Post ID 입니다."));
-        return new PostResponseDto(post);
+    public PostInfoDto getPostById(Long postId) {
+        Post post = postRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException("잘못된 Post ID 입니다."));
+
+        List<String> tagList = tagService.postTagsToTagNameList(post.getPostTags());
+
+        return post.toPostInfoDto(tagList);
     }
 
     @Transactional
-    public Post createPost(PostRegisterDto post) {
-        return postRepository.save(post.toEntity());
+    public Post createPost(PostRegisterDto postRegisterDto) {
+        Post post = Post.from(postRegisterDto);
+        setPostTags(postRegisterDto.getPostTagList(), post);
+
+        post.getPostTags().forEach(postTag -> {
+            log.debug("Post Tags = {}", postTag);
+        });
+
+        return postRepository.save(post);
     }
 
     @Transactional
-    public Post updatePost(Long id, PostRegisterDto updatedPost) {
+    public Post updatePost(Long id, PostUpdateDto postUpdateDto) {
         Post post = postRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("잘못된 Post ID 입니다."));
-        post.update(updatedPost.getTitle(), post.getContent());
+        post.update(postUpdateDto);
 
         return postRepository.save(post);
     }
@@ -45,5 +59,12 @@ public class PostService {
     @Transactional
     public void deletePost(Long id) {
         postRepository.deleteById(id);
+    }
+
+    private void setPostTags(List<String> postTagList, Post post) {
+        List<Tag> tags = tagService.tagArrangement(postTagList);
+        tags.forEach(tag -> {
+            post.addTag(tag);
+        });
     }
 }

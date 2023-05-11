@@ -1,19 +1,21 @@
 package uknow.board.practice.controller.dto;
 
 import lombok.*;
-import uknow.board.practice.entity.Post;
+
+import java.util.List;
 
 @Getter
 @ToString
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
-public class PostResponseDto {
+public class PostInfoDto {
     private String title;
     private String content;
+    private List<String> postTagList;
 
-    public PostResponseDto(Post post) {
-        this.title = post.getTitle();
-        this.content = post.getContent();
+    @Builder
+    public PostInfoDto(String title, String content, List<String> postTagList) {
+        this.title = title;
+        this.content = content;
+        this.postTagList = postTagList;
     }
 }
