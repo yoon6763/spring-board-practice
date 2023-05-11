@@ -34,7 +34,7 @@ public class PostController {
     }
 
     @PutMapping("/{id}")
-    public Post updatePost(@PathVariable Long id, @RequestBody Post updatedPost) {
+    public Post updatePost(@PathVariable Long id, @RequestBody PostRegisterDto updatedPost) {
         return postService.updatePost(id, updatedPost);
     }
 

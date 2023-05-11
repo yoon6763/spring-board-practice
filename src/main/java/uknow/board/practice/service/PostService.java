@@ -35,7 +35,7 @@ public class PostService {
     }
 
     @Transactional
-    public Post updatePost(Long id, Post updatedPost) {
+    public Post updatePost(Long id, PostRegisterDto updatedPost) {
         Post post = postRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("잘못된 Post ID 입니다."));
         post.update(updatedPost.getTitle(), post.getContent());
 
