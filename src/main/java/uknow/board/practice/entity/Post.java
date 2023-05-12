@@ -67,10 +67,6 @@ public class Post {
         this.postTags.add(PostTag.of(this, tag));
     }
 
-    public void addComment(Comment comment) {
-        this.comments.add(comment);
-    }
-
     public List<CommentInfoDto> toCommentInfoList(List<Comment> comments) {
         List<CommentInfoDto> commentInfoDtoList = new ArrayList<>();
         comments.forEach(comment -> commentInfoDtoList.add(comment.toCommentInfoDto()));

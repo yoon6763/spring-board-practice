@@ -45,6 +45,7 @@ public class Comment {
     public CommentInfoDto toCommentInfoDto() {
         return CommentInfoDto.builder()
                 .postId(post.getId())
+                .commentId(this.id)
                 .content(this.content)
                 .build();
     }
