@@ -30,7 +30,7 @@ public class CommentController {
         Comment comment = commentService.createComment(commentRegisterDto);
 
         return ResponseEntity.created(URI.create("/comment/" + comment.getId()))
-                .header(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_PLAIN_VALUE + ";charset="+StandardCharsets.UTF_8)
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_PLAIN_VALUE + ";charset=" + StandardCharsets.UTF_8)
                 .body("댓글 등록 완료");
     }
 
@@ -44,4 +44,13 @@ public class CommentController {
         return commentService.getCommentById(id);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteComment(@PathVariable Long id) {
+        commentService.deleteComment(id);
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_TYPE,
+                        MediaType.TEXT_PLAIN_VALUE + ";charset=" + StandardCharsets.UTF_8)
+                .body("댓글 삭제 완료");
+    }
 }

@@ -25,8 +25,6 @@ public class CommentService {
     public Comment createComment(CommentRegisterDto commentRegisterDto) {
         Post post = postRepository.findById(commentRegisterDto.getPostId()).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글입니다."));
         Comment comment = Comment.from(commentRegisterDto, post);
-        post.addComment(comment);
-
         return commentRepository.save(comment);
     }
 
@@ -48,5 +46,10 @@ public class CommentService {
     @Transactional
     public List<Comment> getCommentsOfPost(Long postId) {
         return commentRepository.findCommentsByPostId(postId);
+    }
+
+    @Transactional
+    public void deleteComment(Long commentId) {
+        commentRepository.deleteById(commentId);
     }
 }
