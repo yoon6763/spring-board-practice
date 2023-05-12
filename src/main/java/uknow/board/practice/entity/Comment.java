@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import uknow.board.practice.controller.dto.CommentInfoDto;
 import uknow.board.practice.controller.dto.CommentRegisterDto;
+import uknow.board.practice.controller.dto.CommentUpdateDto;
 
 import javax.persistence.*;
 
@@ -30,6 +31,10 @@ public class Comment {
     public Comment(String content, Post post) {
         this.content = content;
         this.post = post;
+    }
+
+    public void update(CommentUpdateDto commentUpdateDto) {
+        this.content = commentUpdateDto.getContent();
     }
 
     public void setComment(Post post) {

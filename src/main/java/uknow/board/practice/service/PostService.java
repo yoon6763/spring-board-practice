@@ -22,6 +22,7 @@ public class PostService {
 
     private final PostRepository postRepository;
     private final TagService tagService;
+    private final CommentService commentService;
 
     @Transactional
     public List<Post> getAllPost() {
@@ -33,8 +34,9 @@ public class PostService {
         Post post = postRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException("잘못된 Post ID 입니다."));
 
         List<String> tagList = tagService.postTagsToTagNameList(post.getPostTags());
+        List<Comment> commentList = commentService.getCommentsOfPost(postId);
 
-        return post.toPostInfoDto(tagList);
+        return post.toPostInfoDto(tagList, commentList);
     }
 
     @Transactional
@@ -67,5 +69,10 @@ public class PostService {
         tags.forEach(tag -> {
             post.addTag(tag);
         });
+    }
+
+    @Transactional
+    public void addComment(Comment comment, Post post) {
+        post.getComments().add(comment);
     }
 }

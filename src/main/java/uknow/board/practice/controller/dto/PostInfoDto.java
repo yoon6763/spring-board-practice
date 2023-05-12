@@ -6,19 +6,20 @@ import uknow.board.practice.entity.Comment;
 import java.util.List;
 
 @Getter
+@Setter
 @ToString
 @NoArgsConstructor
 public class PostInfoDto {
     private String title;
     private String content;
     private List<String> postTagList;
-    private List<Comment> commentList;
+    private List<CommentInfoDto> comments;
 
     @Builder
-    public PostInfoDto(String title, String content, List<String> postTagList, List<Comment> commentList) {
+    public PostInfoDto(String title, String content, List<String> postTagList, List<CommentInfoDto> comments) {
         this.title = title;
         this.content = content;
         this.postTagList = postTagList;
-        this.commentList = commentList;
+        this.comments = comments;
     }
 }

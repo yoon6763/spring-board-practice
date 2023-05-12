@@ -24,7 +24,6 @@ public class CommentController {
 
     private final CommentService commentService;
 
-
     @PostMapping
     public ResponseEntity<String> createComment(@RequestBody CommentRegisterDto commentRegisterDto) {
         log.debug("Comment Create {}", commentRegisterDto);
@@ -35,13 +34,10 @@ public class CommentController {
                 .body("댓글 등록 완료");
     }
 
-
-
-//    @GetMapping
-//    public List<Post> getAllPost() {
-//        return postService.getAllPost();
-//    }
-
+    @PutMapping("/{id}")
+    public CommentInfoDto updatePost(@PathVariable Long id, @RequestBody CommentUpdateDto commentUpdateDto) {
+        return commentService.updateComment(id, commentUpdateDto).toCommentInfoDto();
+    }
 
     @GetMapping("/{id}")
     public CommentInfoDto getCommentById(@PathVariable Long id) {

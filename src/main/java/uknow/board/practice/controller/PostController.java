@@ -28,13 +28,16 @@ public class PostController {
 
     @GetMapping
     public List<Post> getAllPost() {
-
         return postService.getAllPost();
     }
 
     @GetMapping("/{id}")
     public PostInfoDto getPostById(@PathVariable Long id) {
-        return postService.getPostById(id);
+        PostInfoDto postInfoDto =  postService.getPostById(id);
+
+        log.debug("[게시글 읽기 요청]");
+
+        return postInfoDto;
     }
 
     @PostMapping
