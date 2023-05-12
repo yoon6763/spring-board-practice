@@ -29,6 +29,11 @@ public class Post {
     @OneToMany(mappedBy = "post", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<PostTag> postTags = new ArrayList<>();
 
+
+    @OneToMany(mappedBy = "post", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    private List<Comment> comments = new ArrayList<>();
+
+
     @Builder
     public Post(String title, String content) {
         this.title = title;

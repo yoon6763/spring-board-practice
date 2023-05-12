@@ -40,11 +40,10 @@ public class PostController {
     @PostMapping
     public ResponseEntity<String> createPost(@RequestBody PostRegisterDto postRegisterDto) {
         log.debug("POST - CREATE {}", postRegisterDto);
-//        return postService.createPost(post);
         Post post = postService.createPost(postRegisterDto);
         return ResponseEntity.created(URI.create("/post/" + post.getId()))
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_PLAIN_VALUE + ";charset=" + StandardCharsets.UTF_8)
-                .body("도서 등록 완료");
+                .body("게시글 등록 완료");
     }
 
     @PutMapping("/{id}")

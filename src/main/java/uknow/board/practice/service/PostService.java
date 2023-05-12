@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import uknow.board.practice.controller.dto.PostRegisterDto;
 import uknow.board.practice.controller.dto.PostInfoDto;
 import uknow.board.practice.controller.dto.PostUpdateDto;
+import uknow.board.practice.entity.Comment;
 import uknow.board.practice.entity.Tag;
 import uknow.board.practice.repository.PostRepository;
 import uknow.board.practice.entity.Post;
