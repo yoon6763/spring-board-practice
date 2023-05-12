@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import uknow.board.practice.controller.dto.CommentInfoDto;
 import uknow.board.practice.controller.dto.CommentRegisterDto;
 
 import javax.persistence.*;
@@ -34,6 +35,13 @@ public class Comment {
     public void setComment(Post post) {
         this.post = post;
         post.getComments().add(this);
+    }
+
+    public CommentInfoDto toCommentInfoDto() {
+        return CommentInfoDto.builder()
+                .postId(post.getId())
+                .content(this.content)
+                .build();
     }
 
     public static Comment from(CommentRegisterDto commentRegisterDto, Post post) {

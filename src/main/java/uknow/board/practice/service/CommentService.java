@@ -4,7 +4,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import uknow.board.practice.controller.dto.CommentInfoDto;
 import uknow.board.practice.controller.dto.CommentRegisterDto;
+import uknow.board.practice.controller.dto.PostInfoDto;
 import uknow.board.practice.controller.dto.PostRegisterDto;
 import uknow.board.practice.entity.Comment;
 import uknow.board.practice.entity.Post;
@@ -28,5 +30,11 @@ public class CommentService {
         Comment comment = Comment.from(commentRegisterDto, post);
 
         return commentRepository.save(comment);
+    }
+
+    @Transactional
+    public CommentInfoDto getCommentById(Long commentId) {
+        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new IllegalArgumentException("잘못된 Comment ID 입니다."));
+        return comment.toCommentInfoDto();
     }
 }

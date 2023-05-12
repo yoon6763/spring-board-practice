@@ -29,19 +29,23 @@ public class CommentController {
     public ResponseEntity<String> createComment(@RequestBody CommentRegisterDto commentRegisterDto) {
         log.debug("Comment Create {}", commentRegisterDto);
         Comment comment = commentService.createComment(commentRegisterDto);
+
         return ResponseEntity.created(URI.create("/comment/" + comment.getId()))
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_PLAIN_VALUE + ";charset="+StandardCharsets.UTF_8)
                 .body("댓글 등록 완료");
     }
 
+
+
 //    @GetMapping
 //    public List<Post> getAllPost() {
 //        return postService.getAllPost();
 //    }
-//
-//    @GetMapping("/{id}")
-//    public CommentInfoDto getCommentById(@PathVariable Long id) {
-//        return commentService.getCommen(id);
-//    }
+
+
+    @GetMapping("/{id}")
+    public CommentInfoDto getCommentById(@PathVariable Long id) {
+        return commentService.getCommentById(id);
+    }
 
 }
