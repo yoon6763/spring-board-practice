@@ -19,14 +19,21 @@ repositories {
 }
 
 dependencies {
+	// JPA
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+	// Thymeleaf
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
+	// Spring web
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+	// Lombok
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
+
+	// MySQL
 	implementation 'mysql:mysql-connector-java:8.0.28'
-	implementation group: 'org.javassist', name: 'javassist', version: '3.15.0-GA'
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 

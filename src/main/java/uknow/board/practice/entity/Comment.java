@@ -37,11 +37,6 @@ public class Comment {
         this.content = commentUpdateDto.getContent();
     }
 
-    public void setComment(Post post) {
-        this.post = post;
-        post.getComments().add(this);
-    }
-
     public CommentInfoDto toCommentInfoDto() {
         return CommentInfoDto.builder()
                 .postId(post.getId())
