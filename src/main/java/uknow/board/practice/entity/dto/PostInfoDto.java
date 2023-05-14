@@ -1,7 +1,6 @@
-package uknow.board.practice.controller.dto;
+package uknow.board.practice.entity.dto;
 
 import lombok.*;
-import uknow.board.practice.entity.Comment;
 
 import java.util.List;
 

@@ -6,15 +6,14 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import uknow.board.practice.controller.dto.*;
 import uknow.board.practice.entity.Comment;
-import uknow.board.practice.entity.Post;
+import uknow.board.practice.entity.dto.CommentInfoDto;
+import uknow.board.practice.entity.dto.CommentRegisterDto;
+import uknow.board.practice.entity.dto.CommentUpdateDto;
 import uknow.board.practice.service.CommentService;
-import uknow.board.practice.service.PostService;
 
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
 
 @Slf4j
 @RestController
