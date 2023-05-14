@@ -4,15 +4,14 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import uknow.board.practice.controller.dto.CommentInfoDto;
-import uknow.board.practice.controller.dto.PostInfoDto;
-import uknow.board.practice.controller.dto.PostRegisterDto;
-import uknow.board.practice.controller.dto.PostUpdateDto;
+import uknow.board.practice.entity.dto.CommentInfoDto;
+import uknow.board.practice.entity.dto.PostInfoDto;
+import uknow.board.practice.entity.dto.PostRegisterDto;
+import uknow.board.practice.entity.dto.PostUpdateDto;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Entity
 @Getter

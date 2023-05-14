@@ -4,9 +4,9 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import uknow.board.practice.controller.dto.CommentInfoDto;
-import uknow.board.practice.controller.dto.CommentRegisterDto;
-import uknow.board.practice.controller.dto.CommentUpdateDto;
+import uknow.board.practice.entity.dto.CommentInfoDto;
+import uknow.board.practice.entity.dto.CommentRegisterDto;
+import uknow.board.practice.entity.dto.CommentUpdateDto;
 
 import javax.persistence.*;
 

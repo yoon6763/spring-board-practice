@@ -23,48 +23,61 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-@Slf4j
 public class JwtTokenProvider {
 
-    private final UserDetailsService userDetailsService;
+    private final UserDetailsService userDetailsService; // Spring Security 에서 제공하는 서비스 레이어
 
-    @Value("${springboot.jwt.secret")
+    @Value("${springboot.jwt.secret}")
     private String secretKey = "secretKey";
-    private final Long tokenValidMillisecond = 1000L * 60 * 60;
+    private final long tokenValidMillisecond = 1000L * 60 * 60 * 24 * 7; // 7일 토큰 유효
 
-
+    /**
+     * SecretKey 에 대해 인코딩 수행
+     */
     @PostConstruct
     protected void init() {
-        log.debug("[init] JwtTokenProvider 내 secretKey 초기화 시작");
+        System.out.println(secretKey);
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes(StandardCharsets.UTF_8));
-        log.debug("[init] JwtTokenProvider 내 secretKey 초기화 완료");
+        System.out.println(secretKey);
     }
 
+    // JWT 토큰 생성
     public String createToken(String userUid, List<String> roles) {
         Claims claims = Jwts.claims().setSubject(userUid);
         claims.put("roles", roles);
-        Date now = new Date();
 
+        Date now = new Date();
         String token = Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(now)
                 .setExpiration(new Date(now.getTime() + tokenValidMillisecond))
-                .signWith(SignatureAlgorithm.HS256, secretKey)
+                .signWith(SignatureAlgorithm.HS256, secretKey) // 암호화 알고리즘, secret 값 세팅
                 .compact();
         return token;
     }
 
-    public Authentication getauthentication(String token) {
+    // JWT 토큰으로 인증 정보 조회
+    public Authentication getAuthentication(String token) {
         UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUsername(token));
-        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
+        return new UsernamePasswordAuthenticationToken(userDetails, "",
+                userDetails.getAuthorities());
     }
 
+    // JWT 토큰에서 회원 구별 정보 추출
     public String getUsername(String token) {
-        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
+        String info = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody()
+                .getSubject();
+        return info;
     }
 
+    /**
+     * HTTP Request Header 에 설정된 토큰 값을 가져옴
+     *
+     * @param request Http Request Header
+     * @return String type Token 값
+     */
     public String resolveToken(HttpServletRequest request) {
-        return request.getHeader("X-AUTH-TOKEN");
+        return request.getHeader("AccessToken");
     }
 
     public boolean validateToken(String token) {

@@ -4,5 +4,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import uknow.board.practice.entity.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
-    User getUserByUid(String uid);
+    User getByUid(String uid);
 }

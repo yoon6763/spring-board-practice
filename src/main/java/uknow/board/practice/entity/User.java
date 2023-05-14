@@ -17,15 +17,22 @@ import java.util.stream.Collectors;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Table
 public class User implements UserDetails {
+
+    private static final long serialVersionUID = 6014984039564979072L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @Column(nullable = false, unique = true)
+    private String uid; // 회원 ID (JWT 토큰 내 정보)
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY) // Json 결과로 출력하지 않을 데이터에 대해 해당 어노테이션 설정 값 추가
     @Column(nullable = false)
-    private String uid;
+    private String password;
 
     @Column(nullable = false)
     private String name;
@@ -39,42 +46,59 @@ public class User implements UserDetails {
         return this.roles.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
     }
 
-    @Override
-    public String getPassword() {
-        return null;
-    }
-
+    /**
+     * security 에서 사용하는 회원 구분 id
+     *
+     * @return uid
+     */
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-
-    // 계정 이름 리턴. 일반적으로 아이디 리턴
     @Override
     public String getUsername() {
         return this.uid;
     }
 
+    /**
+     * 계정이 만료되었는지 체크하는 로직
+     * 이 예제에서는 사용하지 않으므로 true 값 return
+     *
+     * @return true
+     */
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-
-    // 계정이 만료되었는지 리턴. true : 만료되지 않음
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
-    // 계정이 잠겨있는지 리턴, true : 잠기지 않음
+    /**
+     * 계정이 잠겼는지 체크하는 로직
+     * 이 예제에서는 사용하지 않으므로 true 값 return
+     *
+     * @return true
+     */
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
-    // 비밀번호가 만료됬는지 리턴. true : 만료되지 않음
+    /**
+     * 계정의 패스워드가 만료되었는지 체크하는 로직
+     * 이 예제에서는 사용하지 않으므로 true 값 return
+     *
+     * @return true
+     */
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
-    // 활성화 상태인지 리턴. true : 활성화 상태
+    /**
+     * 계정이 사용가능한지 체크하는 로직
+     * 이 예제에서는 사용하지 않으므로 true 값 return
+     *
+     * @return true
+     */
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Override
     public boolean isEnabled() {

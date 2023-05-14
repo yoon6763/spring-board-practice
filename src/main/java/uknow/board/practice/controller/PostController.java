@@ -5,9 +5,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import uknow.board.practice.controller.dto.PostRegisterDto;
-import uknow.board.practice.controller.dto.PostInfoDto;
-import uknow.board.practice.controller.dto.PostUpdateDto;
+import uknow.board.practice.entity.dto.PostRegisterDto;
+import uknow.board.practice.entity.dto.PostInfoDto;
+import uknow.board.practice.entity.dto.PostUpdateDto;
 import uknow.board.practice.service.PostService;
 import uknow.board.practice.entity.Post;
 

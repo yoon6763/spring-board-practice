@@ -4,14 +4,15 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import uknow.board.practice.controller.dto.*;
 import uknow.board.practice.entity.Comment;
 import uknow.board.practice.entity.Post;
+import uknow.board.practice.entity.dto.CommentInfoDto;
+import uknow.board.practice.entity.dto.CommentRegisterDto;
+import uknow.board.practice.entity.dto.CommentUpdateDto;
 import uknow.board.practice.repository.CommentRepository;
 import uknow.board.practice.repository.PostRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Service

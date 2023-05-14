@@ -3,16 +3,20 @@ package uknow.board.practice.config.security;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
-import uknow.board.practice.controller.dto.EntryPointErrorResponse;
+import org.springframework.stereotype.Component;
+import uknow.board.practice.entity.dto.EntryPointErrorResponse;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@Component
 public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
+
     @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
+    public void commence(HttpServletRequest request, HttpServletResponse response,
+                         AuthenticationException ex) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
 
         EntryPointErrorResponse entryPointErrorResponse = new EntryPointErrorResponse();
