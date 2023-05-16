@@ -48,7 +48,7 @@ public class Comment {
                 .postId(post.getId())
                 .commentId(this.id)
                 .content(this.content)
-                .userInfoDto(user.toUserInfoDto())
+                .commentWriter(user.toUserInfoDto())
                 .build();
     }
 

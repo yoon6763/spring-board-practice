@@ -63,6 +63,7 @@ public class Post {
         return PostInfoDto.builder()
                 .title(this.title)
                 .content(this.content)
+                .postWriter(this.getUser().toUserInfoDto())
                 .comments(toCommentInfoList(comments))
                 .postTagList(tagList)
                 .build();
