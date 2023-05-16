@@ -27,10 +27,16 @@ public class Comment {
     @JoinColumn(name = "post_id")
     private Post post;
 
+
+    @ManyToOne
+    private User user;
+
+
     @Builder
-    public Comment(String content, Post post) {
+    public Comment(String content, Post post, User user) {
         this.content = content;
         this.post = post;
+        this.user = user;
     }
 
     public void update(CommentUpdateDto commentUpdateDto) {
@@ -45,9 +51,10 @@ public class Comment {
                 .build();
     }
 
-    public static Comment from(CommentRegisterDto commentRegisterDto, Post post) {
+    public static Comment from(CommentRegisterDto commentRegisterDto, Post post, User user) {
         return Comment.builder()
                 .post(post)
+                .user(user)
                 .content(commentRegisterDto.getContent())
                 .build();
     }
