@@ -4,13 +4,16 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import uknow.board.practice.config.security.JwtTokenProvider;
 import uknow.board.practice.entity.Comment;
 import uknow.board.practice.entity.Post;
+import uknow.board.practice.entity.User;
 import uknow.board.practice.entity.dto.CommentInfoDto;
 import uknow.board.practice.entity.dto.CommentRegisterDto;
 import uknow.board.practice.entity.dto.CommentUpdateDto;
 import uknow.board.practice.repository.CommentRepository;
 import uknow.board.practice.repository.PostRepository;
+import uknow.board.practice.service.impl.UserDetailsServiceImpl;
 
 import java.util.List;
 
@@ -21,11 +24,16 @@ import java.util.List;
 public class CommentService {
     private final CommentRepository commentRepository;
     private final PostRepository postRepository;
+    private final UserDetailsServiceImpl userService;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @Transactional
-    public Comment createComment(CommentRegisterDto commentRegisterDto) {
+    public Comment createComment(String accessToken, CommentRegisterDto commentRegisterDto) {
         Post post = postRepository.findById(commentRegisterDto.getPostId()).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글입니다."));
-        Comment comment = Comment.from(commentRegisterDto, post);
+
+        User user = userService.loadUserByUsername(jwtTokenProvider.getUsername(accessToken));
+
+        Comment comment = Comment.from(commentRegisterDto, post, user);
         return commentRepository.save(comment);
     }
 

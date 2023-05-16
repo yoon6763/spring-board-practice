@@ -27,6 +27,10 @@ public class Post {
 
     private String content;
 
+    @ManyToOne
+    private User user;
+
+
     @OneToMany(mappedBy = "post", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<PostTag> postTags = new ArrayList<>();
 
@@ -36,9 +40,10 @@ public class Post {
 
 
     @Builder
-    public Post(String title, String content) {
+    public Post(String title, String content, User user) {
         this.title = title;
         this.content = content;
+        this.user = user;
     }
 
     public void update(PostUpdateDto postUpdateDto) {
@@ -46,10 +51,11 @@ public class Post {
         this.content = postUpdateDto.getContent();
     }
 
-    public static Post from(PostRegisterDto postRegisterDto) {
+    public static Post from(PostRegisterDto postRegisterDto, User user) {
         return Post.builder()
                 .title(postRegisterDto.getTitle())
                 .content(postRegisterDto.getContent())
+                .user(user)
                 .build();
     }
 
@@ -57,6 +63,7 @@ public class Post {
         return PostInfoDto.builder()
                 .title(this.title)
                 .content(this.content)
+                .postWriter(this.getUser().toUserInfoDto())
                 .comments(toCommentInfoList(comments))
                 .postTagList(tagList)
                 .build();

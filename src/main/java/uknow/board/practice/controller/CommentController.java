@@ -24,9 +24,12 @@ public class CommentController {
     private final CommentService commentService;
 
     @PostMapping
-    public ResponseEntity<String> createComment(@RequestBody CommentRegisterDto commentRegisterDto) {
+    public ResponseEntity<String> createComment(
+            @RequestHeader("AccessToken") String accessToken,
+            @RequestBody CommentRegisterDto commentRegisterDto
+    ) {
         log.debug("Comment Create {}", commentRegisterDto);
-        Comment comment = commentService.createComment(commentRegisterDto);
+        Comment comment = commentService.createComment(accessToken, commentRegisterDto);
 
         return ResponseEntity.created(URI.create("/comment/" + comment.getId()))
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_PLAIN_VALUE + ";charset=" + StandardCharsets.UTF_8)
