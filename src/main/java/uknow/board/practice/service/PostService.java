@@ -64,11 +64,9 @@ public class PostService {
     }
 
     @Transactional
-    public Post updatePost(Long id, PostUpdateDto postUpdateDto) {
+    public void updatePost(Long id, PostUpdateDto postUpdateDto) {
         Post post = postRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("잘못된 Post ID 입니다."));
         post.update(postUpdateDto);
-
-        return postRepository.save(post);
     }
 
     @Transactional

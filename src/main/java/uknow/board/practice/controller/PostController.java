@@ -55,8 +55,11 @@ public class PostController {
     }
 
     @PutMapping("/{id}")
-    public Post updatePost(@PathVariable Long id, @RequestBody PostUpdateDto postUpdateDto) {
-        return postService.updatePost(id, postUpdateDto);
+    public ResponseEntity<String> updatePost(@PathVariable Long id, @RequestBody PostUpdateDto postUpdateDto) {
+        postService.updatePost(id, postUpdateDto);
+        return ResponseEntity.created(URI.create("/post/" + id))
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_PLAIN_VALUE + ";charset=" + StandardCharsets.UTF_8)
+                .body("게시글 수정 완료");
     }
 
     @DeleteMapping("/{id}")
