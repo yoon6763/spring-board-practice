@@ -1,5 +1,6 @@
 package uknow.board.practice.controller;
 
+import io.jsonwebtoken.Header;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -33,7 +34,7 @@ public class PostController {
 
     @GetMapping("/{id}")
     public PostInfoDto getPostById(@PathVariable Long id) {
-        PostInfoDto postInfoDto =  postService.getPostById(id);
+        PostInfoDto postInfoDto = postService.getPostById(id);
 
         log.debug("[게시글 읽기 요청]");
 
@@ -41,9 +42,13 @@ public class PostController {
     }
 
     @PostMapping
-    public ResponseEntity<String> createPost(@RequestBody PostRegisterDto postRegisterDto) {
+    public ResponseEntity<String> createPost(
+            @RequestHeader("accessToken") String accessToken,
+            @RequestBody PostRegisterDto postRegisterDto
+    ) {
         log.debug("POST - CREATE {}", postRegisterDto);
-        Post post = postService.createPost(postRegisterDto);
+        Post post = postService.createPost(postRegisterDto, accessToken);
+
         return ResponseEntity.created(URI.create("/post/" + post.getId()))
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_PLAIN_VALUE + ";charset=" + StandardCharsets.UTF_8)
                 .body("게시글 등록 완료");

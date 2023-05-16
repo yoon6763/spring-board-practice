@@ -2,8 +2,11 @@ package uknow.board.practice.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import uknow.board.practice.config.security.JwtTokenProvider;
+import uknow.board.practice.entity.User;
 import uknow.board.practice.entity.dto.PostRegisterDto;
 import uknow.board.practice.entity.dto.PostInfoDto;
 import uknow.board.practice.entity.dto.PostUpdateDto;
@@ -11,6 +14,7 @@ import uknow.board.practice.entity.Comment;
 import uknow.board.practice.entity.Tag;
 import uknow.board.practice.repository.PostRepository;
 import uknow.board.practice.entity.Post;
+import uknow.board.practice.service.impl.UserDetailsServiceImpl;
 
 import java.util.List;
 
@@ -23,6 +27,8 @@ public class PostService {
     private final PostRepository postRepository;
     private final TagService tagService;
     private final CommentService commentService;
+    private final JwtTokenProvider jwtTokenProvider;
+    private final UserDetailsServiceImpl userService;
 
     @Transactional
     public List<Post> getAllPost() {
@@ -40,9 +46,15 @@ public class PostService {
     }
 
     @Transactional
-    public Post createPost(PostRegisterDto postRegisterDto) {
-        Post post = Post.from(postRegisterDto);
+    public Post createPost(PostRegisterDto postRegisterDto, String accessToken) {
+        String username = jwtTokenProvider.getUsername(accessToken);
+        User user = userService.loadUserByUsername(username);
+
+        log.debug("[createPost] user = {}", user);
+
+        Post post = Post.from(postRegisterDto, user);
         setPostTags(postRegisterDto.getPostTagList(), post);
+
 
         post.getPostTags().forEach(postTag -> {
             log.debug("Post Tags = {}", postTag);
